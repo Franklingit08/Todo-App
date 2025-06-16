@@ -1,6 +1,6 @@
 import express from 'express'
 import connectDb from './config/datab.js'
-import Todos from './model/todoModel.js'
+import todoRoute from './routes/todoRoute.js'
 
 const app = express()
 
@@ -13,28 +13,10 @@ app.use(express.urlencoded({ extended: true }))
 
 
 
-app.post('/create-todo', async (req, res) => {
+
+app.use('/api/todo', todoRoute)
 
 
-    try {
-
-        let { title, description } = req.body
-
-
-        let newTodo = await Todos.create({
-            title,
-            description
-        })
-
-        res.json(newTodo)
-
-    } catch (error) {
-        console.log(error)
-    }
-
-
-
-})
 
 
 
