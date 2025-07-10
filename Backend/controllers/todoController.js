@@ -61,19 +61,23 @@ const getTodoById = async (req, res) => {
 }
 
 const updateTodo = async (req, res) => {
-    try {
-        const { title, description, isCompleted, id } = req.body
-        const updateTodo = await Todos.findByIdAndUpdateb(id, { title, description, isCompleted })
+  try {
+    const { title, description, isCompleted, id } = req.body;
 
-        if (!updateTodo) {
-            return res.status(404).json({ message: 'Todo not found' })
-        }
+    const updatedTodo = await Todos.findByIdAndUpdate(
+      id,
+      { title, description, isCompleted },
+      { new: true }
+    );
 
-        res.json(updateTodo)
-
-    } catch (error) {
-        res.status(500).json(error)
+    if (!updatedTodo) {
+      return res.status(404).json({ message: "Todo not found" });
     }
+
+    res.json(updatedTodo);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 export {

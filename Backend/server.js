@@ -2,6 +2,7 @@ import express from 'express'
 import connectDb from './config/datab.js'
 import todoRoute from './routes/todoRoute.js'
 import cors from 'cors'
+import userRoute from './routes/userRoutes.js'
 
 const app = express()
 
@@ -15,7 +16,8 @@ app.use(cors())
 
 
 
-app.use('/api/todo', todoRoute)
+app.use('/api/todo', todoRoute);
+app.use('/api/user' ,userRoute)
 
 
 

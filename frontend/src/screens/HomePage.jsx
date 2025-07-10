@@ -1,38 +1,105 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Backend from "../Axios";
-
+import './Homepage.css'
+import { toast } from "react-toastify";
+import {
+  useGetTodosQuery,
+  useCreateTodoMutation,
+  useDeleteTodoMutation
+} from "../slices/todoApiSlice";
 
 function HomePage() {
-  let [todos, setTodos] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  const getTodos = async () => {
+  const { data: todos, refetch } = useGetTodosQuery();
+
+  const [createTodo] = useCreateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation()
+
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
     try {
-      let data = await Backend.get('/getTodos');
-
-      console.log(data)
-      setTodos(data.data);
+      let response = await createTodo({title , description}).unwrap()
+      refetch();
+      toast.success("Todo Created Successfully");
+      setTitle("");
+      setDescription("");
     } catch (error) {
       console.log(error?.message || error?.data?.message);
+      toast.error(error?.message || error?.data?.message);
     }
   };
 
-  useEffect(() => {
-    getTodos()
-  }, []);
+  const deleteHandler = async (id) => {
+    try {
+      let response = await deleteTodo(id).unwrap()
+      refetch();
+      toast.success("Todo Deleted Successfully");
+    } catch (error) {
+      console.log(error?.message || error?.data?.message);
+      toast.error(error?.message || error?.data?.message);
+    }
+  };
 
-  return (
-    <>
-      {todos.map((item, index) => (
-        <div key={index}>
-          <p>
-            {index + 1} Title : {item.title}
-          </p>
-          <p>Description : {item.description}</p>
+   return (
+  <>
+      <div className="container">
+        <div className="form-container">
+          <form onSubmit={submitHandler}>
+            <input
+              type="text"
+              placeholder="Enter Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+
+            <textarea
+              rows={5}
+              cols={10}
+              placeholder="Enter Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+
+            <button type="submit">Add</button>
+          </form>
         </div>
-      ))}
+
+        <div className="todos-container">
+          {todos?.map((todo) => (
+            <div className="box todo-card" key={todo._id}>
+              <h1 className={todo?.isCompleted? "completed" : "todo-title"}>
+                {todo.title}
+              </h1>
+              <p className="todo-description">{todo.description}</p>
+              <div className="button-group">
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteHandler(todo._id)}
+                >
+                  Delete
+                </button>
+                {!todo.isCompleted && (
+                  <button
+                    className="edit-btn"
+                    onClick={() => navigate(`/edit/${todo._id}`)}
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }
+
 
 export default HomePage; 
