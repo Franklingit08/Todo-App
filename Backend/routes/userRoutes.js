@@ -7,7 +7,7 @@ userRoute.post('/auth', loginUser)
 
 userRoute.post('/' , registerUser)
 
-userrRoute.get('/logout', logoutUser)
+userRoute.get('/logout', logoutUser)
 
 
 
