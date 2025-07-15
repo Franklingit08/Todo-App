@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Backend from "../Axios";
 import './Homepage.css'
 import { toast } from "react-toastify";
 import {
@@ -8,12 +7,16 @@ import {
   useCreateTodoMutation,
   useDeleteTodoMutation
 } from "../slices/todoApiSlice";
+import { useSelector } from "react-redux";
 
 function HomePage() {
+
+  const { userInfo } = useSelector((state) => state.auth)
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const { data: todos, refetch } = useGetTodosQuery();
+  const { data: todos, refetch } = useGetTodosQuery({ userId: userInfo?._id });
 
   const [createTodo] = useCreateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation()
@@ -24,7 +27,7 @@ function HomePage() {
     e.preventDefault();
 
     try {
-      let response = await createTodo({title , description}).unwrap()
+      let response = await createTodo({ title, description, userId: userInfo?._id }).unwrap();
       refetch();
       toast.success("Todo Created Successfully");
       setTitle("");
@@ -46,10 +49,20 @@ function HomePage() {
     }
   };
 
-   return (
-  <>
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/login')
+    }
+  }, [])
+
+
+
+  return (
+    <>
       <div className="container">
         <div className="form-container">
+          <h2>Hello,{userInfo?.name}</h2>
           <form onSubmit={submitHandler}>
             <input
               type="text"
@@ -67,13 +80,14 @@ function HomePage() {
             ></textarea>
 
             <button type="submit">Add</button>
+
           </form>
         </div>
 
         <div className="todos-container">
           {todos?.map((todo) => (
             <div className="box todo-card" key={todo._id}>
-              <h1 className={todo?.isCompleted? "completed" : "todo-title"}>
+              <h1 className={todo?.isCompleted ? "completed" : "todo-title"}>
                 {todo.title}
               </h1>
               <p className="todo-description">{todo.description}</p>

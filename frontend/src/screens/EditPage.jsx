@@ -5,17 +5,23 @@ import { useGetTodoByIdQuery,
         useGetTodosQuery } from "../slices/todoApiSlice.js";
 import { useNavigate } from "react-router-dom";
 import "./EditPage.css";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function EditPage() {
 
   const { id } = useParams();
+  
+  const { userInfo } = useSelector((state) => state.auth);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
 
   const { data: todo, refetch } = useGetTodoByIdQuery({ id });
-  const {data ,refetch: getAllTodos} =useGetTodosQuery();
+  const {data ,refetch: getAllTodos} =useGetTodosQuery({
+    userId:userInfo?._id,
+  });
 
   const [updateTodo] = useUpdateTodoMutation()
 
@@ -29,7 +35,7 @@ function EditPage() {
         description,
         isCompleted,
         id
-      }).unwrap()
+      }).unwrap();
 
        setTitle("");
       setDescription("");
@@ -38,10 +44,13 @@ function EditPage() {
       refetch();
       getAllTodos();
 
+      toast.success('Edited');
+
       navigate('/')
 
     } catch (error) {
       console.log(error);
+      toast.error(error?.message||error?.data?.message);
     }
   };
 
