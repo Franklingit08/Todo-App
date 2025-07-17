@@ -4,14 +4,14 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-image: url(Newfolder/edit.png);
   }
   
   .edit-form {
-    width: 40%;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+    width: 450px;
+    background: rgb(201, 155, 155);
+    padding: 90px;
+    border-radius: 200px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -24,15 +24,15 @@
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 20px;
   }
   
   .edit-form button {
     padding: 10px;
-    background-color: #2563eb;
+    background-color: #233e79;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius:20px;
     cursor: pointer;
     transition: 0.3s;
   }

@@ -1,33 +1,41 @@
+import "./HomePage.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import './Homepage.css'
 import { toast } from "react-toastify";
 import {
   useGetTodosQuery,
   useCreateTodoMutation,
-  useDeleteTodoMutation
+  useDeleteTodoMutation,
 } from "../slices/todoApiSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutUserMutation } from "../slices/userApiSlice";
+import { logout } from "../slices/authSlice";
+
 
 function HomePage() {
-
-  const { userInfo } = useSelector((state) => state.auth)
+  const { userInfo } = useSelector((state) => state.auth);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const { data: todos, refetch } = useGetTodosQuery({ userId: userInfo?._id });
+  const [logoutUser] = useLogoutUserMutation();
 
   const [createTodo] = useCreateTodoMutation();
-  const [deleteTodo] = useDeleteTodoMutation()
+  const [deleteTodo] = useDeleteTodoMutation();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
-      let response = await createTodo({ title, description, userId: userInfo?._id }).unwrap();
+      let response = await createTodo({
+        title,
+        description,
+        userId: userInfo?._id,
+      }).unwrap();
       refetch();
       toast.success("Todo Created Successfully");
       setTitle("");
@@ -40,7 +48,7 @@ function HomePage() {
 
   const deleteHandler = async (id) => {
     try {
-      let response = await deleteTodo(id).unwrap()
+      let response = await deleteTodo(id).unwrap();
       refetch();
       toast.success("Todo Deleted Successfully");
     } catch (error) {
@@ -49,18 +57,33 @@ function HomePage() {
     }
   };
 
-
   useEffect(() => {
     if (!userInfo) {
-      navigate('/login')
+      navigate("/login");
     }
-  }, [])
+  }, []);
 
+  const logoutHandler = async () => {
+    try {
+      await logoutUser().unwrap();
+      await dispatch(logout());
+      toast.success("logout success");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error?.message || error?.data?.message);
+    }
+  };
 
 
   return (
+
     <>
-      <div className="container">
+      <button className="logOutBtn" onClick={() => logoutHandler()}>Logout</button>
+      <div className="title">
+        <h1 >Todo App</h1>
+        <h6>"Achieve More with Less Hassle"</h6>
+      </div>
+      <div className="container1">
         <div className="form-container">
           <h2>Hello,{userInfo?.name}</h2>
           <form onSubmit={submitHandler}>
@@ -80,7 +103,6 @@ function HomePage() {
             ></textarea>
 
             <button type="submit">Add</button>
-
           </form>
         </div>
 
@@ -115,5 +137,4 @@ function HomePage() {
   );
 }
 
-
-export default HomePage; 
+export default HomePage;

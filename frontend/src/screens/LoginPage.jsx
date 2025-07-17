@@ -31,7 +31,7 @@ function LoginPage() {
 
   useEffect(()=>{
     if(userInfo){
-      navigate('/')
+      navigate("/")
     }
   },[])
 
@@ -63,7 +63,7 @@ function LoginPage() {
           </button>
         </form>
         <p className="login-link">
-          Don't have an account? <Link to="/register">Register</Link>
+          Don't have an account? <Link to="/register">Create one now!</Link>
         </p>
       </div>
     </div>

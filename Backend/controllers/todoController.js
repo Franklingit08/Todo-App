@@ -1,91 +1,64 @@
 import Todos from "../model/todoModel.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
-const createTodo = async (req, res) => {
+const createTodo = asyncHandler(async (req, res) => {
+
+    let { title, description,userId} = req.body
+
+    let newTodo = await Todos.create({
+        userId,
+        title,
+        description
+    });
+
+    res.json(newTodo)
+
+});
+
+const getTodos = asyncHandler(async (req, res) => {
+    const { userId } = req.query;
+    const todos = await Todos.find({ userId: userId });
+    res.json(todos)
+
+});
 
 
-    try {
+const deleteTodo = asyncHandler(async (req, res) => {
+    const deleted = await Todos.findByIdAndDelete(req.params.id)
 
-        let { title, description,userId } = req.body
-
-
-        let newTodo = await Todos.create({
-            userId,
-            title,
-            description
-        })
-
-        res.json(newTodo)
-
-    } catch (error) {
-        console.log(error)
+    if (!deleted) {
+        return res.status(404).json({ message: 'Todo not found' })
     }
 
-};
+    res.json({ message: 'Todo deleted successfully' })
+});
 
-const getTodos = async (req, res) => {
-    try {
-        const{userId}=req.query;
-        const todos = await Todos.find({userId:userId});
-        res.json(todos)
-    } catch (error) {
-        res.status(500).json(error)
+const getTodoById = asyncHandler(async (req, res) => {
+    const { id } = req.query
+
+    const todo = await Todos.findById(id)
+
+    if (!todo) {
+        return res.status(404).json({ message: 'todo not found' })
     }
-};
+    res.json(todo)
+});
 
-const deleteTodo = async (req, res) => {
-    try {
-        const deleted = await Todos.findByIdAndDelete(req.params.id)
-
-        if (!deleted) {
-            return res.status(404).json({ message: 'Todo not found' })
-        }
-
-        res.json({ message: 'Todo deleted successfully' })
-
-    } catch (error) {
-        res.status(500).json(error)
-    }
-};
-
-const getTodoById = async (req, res) => {
-    try {
-        const{id}= req.query
-
-        const todo=await Todos.findById(id)
-
-        if(!todo){
-            return res.status(404).json({message:'todo not found'})
-        }
-        res.json(todo)
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
-
-const updateTodo = async (req, res) => {
-  try {
+const updateTodo = asyncHandler(async (req, res) => {
     const { title, description, isCompleted, id } = req.body;
 
     const updatedTodo = await Todos.findByIdAndUpdate(
-      id,
-      { title, description, isCompleted },
-      { new: true }
+        id,
+        { title, description, isCompleted },
+        { new: true }
     );
 
-    if (!updatedTodo) {
-      return res.status(404).json({ message: "Todo not found" });
-    }
-
-    res.json(updatedTodo);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
+});
 
 export {
     createTodo,
     getTodos,
     deleteTodo,
     updateTodo,
-    getTodoById 
+    getTodoById
 }

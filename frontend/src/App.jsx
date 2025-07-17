@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./screens/HomePage";
-import EditPage from "./screens/EditPage";
+import HomePage from "./screens/HomePage.jsx";
+import EditPage from "./screens/EditPage.jsx";
 import { ToastContainer } from "react-toastify";
 import LoginPage from "./screens/LoginPage";
 import RegisterPage from "./screens/RegisterPage";

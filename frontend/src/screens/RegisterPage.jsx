@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 function RegisterPage() {
   
   const { userInfo } = useSelector((state) => state.auth);
-
+    
   let [name, setName] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");

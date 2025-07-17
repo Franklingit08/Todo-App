@@ -1,3 +1,4 @@
+import "./EditPage.css";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetTodoByIdQuery,
@@ -46,7 +47,7 @@ function EditPage() {
 
       toast.success('Edited');
 
-      navigate('/')
+      navigate('/');
 
     } catch (error) {
       console.log(error);

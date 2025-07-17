@@ -5,23 +5,61 @@
 }
 
 /* HomePage.css */
-.container {
+.container1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
     gap: 20px;
     height: 100vh;
+    background-image: url(Newfolder/task.png);
+}
+
+.logOutBtn {
+    background: linear-gradient(135deg, #157e36, #850505);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.title{
+    color: rgb(255, 255, 255);
+    background-color: #000000;
+    padding: 5px 45px 5px 45px;
+    border-radius: 40px;
+    font:icon;
+    font-size:35px;
+    position: absolute;
+    margin-left: 200px;
+    top: 20px;
+    text-align: center;
+}
+.title h6{
+     background: linear-gradient(135deg, #0b4898, #ad02c0);
+     border-radius: 30px;
+    padding: 5px 20px 5px 20px;
 }
 
 .form-container {
-    width: 40%;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+    width: 450px;
+    font: italic;
+    background: rgba(0, 0, 0, 0.812);
+    padding: 80px;
+    margin-left: 160px;
+    margin-bottom: 20px;
+    border-radius: 200px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
-    top: 20px;
+    top: 200px;
+}
+
+.form-container h2 {
+    color: white;
+    font: icon;
+    font-size: xx-large;
+
 }
 
 .form-container form {
@@ -35,21 +73,22 @@
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 .form-container button {
     padding: 10px;
-    background-color: #2563eb;
+    background-color: #3d586d;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: medium;
     transition: 0.3s;
 }
 
 .form-container button:hover {
-    background-color: #1e4fd8;
+    background-color: #577f9b;
 }
 
 .todos-container {
@@ -62,7 +101,7 @@
     overflow-y: auto;
     padding-right: 10px;
     scrollbar-width: thin;
-    scrollbar-color: #4c51bf #f1f1f1;
+    scrollbar-color: #373961 #f1f1f1;
 }
 
 /* Custom scrollbar for Webkit browsers */
@@ -73,20 +112,22 @@
 .todo-card {
     background: rgba(255, 255, 255, 0.15);
     padding: 18px;
-    border-radius: 12px;
+    border-radius: 100px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 90%;
     transition: 0.3s ease-in-out;
-    border-left: 6px solid #4c51bf;
-    backdrop-filter: blur(12px);
+    border-left: 6px solid #3e417c;
+    backdrop-filter: blur(5px);
 }
 
 .todo-card:hover {
     transform: scale(1.01);
-    background: rgba(255, 255, 255, 0.3);
+    background-color: white;
+    opacity: 97%;
+    transition: 1s;
 }
 
 .todo-content {
@@ -94,16 +135,14 @@
 }
 
 .todo-title {
-    font-size: 1.4rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: #034647;
     margin-bottom: 5px;
 }
 
 .todo-description {
-    font-size: 1rem;
-    color: #34495e;
-    opacity: 0.9;
+    font-size: medium;
+    color: #052f59;
     line-height: 1.5;
 }
 
@@ -128,7 +167,8 @@
 }
 
 .delete-btn {
-    background: linear-gradient(135deg, #ff6b6b, #ff4757);
+    margin-left: 20px;
+    background: linear-gradient(135deg, #b64f4f, #ff4757);
     color: white;
 }
 
@@ -137,7 +177,7 @@
 }
 
 .edit-btn {
-    background: linear-gradient(135deg, #48c6ef, #6f86d6);
+    background: linear-gradient(135deg, #186c88, #6f86d6);
     color: white;
 }
 
@@ -150,5 +190,3 @@
     opacity: 0.5;
     color: #ff0000;
 }
-    
-   
